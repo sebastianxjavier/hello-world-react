@@ -1,5 +1,9 @@
 pipeline {
-    agent { label 'wsl' }
+    agent { 
+        docker {
+            label 'wsl'
+        }
+    }
     stages {
         stage('Build de la aplicación') {
             steps {
