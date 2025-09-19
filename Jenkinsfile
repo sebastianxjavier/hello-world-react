@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Build de la aplicación') {
             steps {
-                sh 'docker build -t webserver .'
+                sh 'docker build -t hello-world .'
             }
         }
         stage('Publicar imagen de la aplicación') {
