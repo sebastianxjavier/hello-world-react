@@ -1,9 +1,5 @@
 pipeline {
     agent { 
-        // docker {
-        //     image 'node:24-alpine'
-        //     label 'wsl'
-        // }
         label 'wsl'
     }
     stages {
@@ -22,6 +18,11 @@ pipeline {
                         sh 'docker push ghcr.io/sebastianxjavier/hello-world:latest'
                     }
                 }
+            }
+        }
+        stage('Deploy de la aplicación') {
+            steps {
+                sh "kubectl set image deployment/hello-world hello-world=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
             }
         }
     }
