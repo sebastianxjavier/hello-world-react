@@ -10,6 +10,7 @@ pipeline {
         stage('Build de la aplicación') {
             steps {
                 sh 'docker build -t webserver .'
+                sh 'docker tag webserver ghcr.io/sebastianxjavier/hello-world'
             }
         }
     }
