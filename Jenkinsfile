@@ -10,7 +10,7 @@ pipeline {
         stage('Build de la aplicación') {
             steps {
                 script {
-                    docker.withRegistry("ghcr.io", "reg-cred-id") {
+                    docker.withRegistry("https://ghcr.io", "reg-cred-id") {
                         sh 'docker build -t webserver .'
                         sh 'docker tag webserver ghcr.io/sebastianxjavier/hello-world'
                         sh 'docker push ghcr.io/sebastianxjavier/hello-world'
