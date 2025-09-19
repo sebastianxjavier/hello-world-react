@@ -16,8 +16,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("https://ghcr.io", "reg-cred-id") {
-                        sh "docker tag hello-world ghcr.io/sebastianxjavier/hello-world:${env.BRANCH_NAME}"
-                        sh "docker push ghcr.io/sebastianxjavier/hello-world:${env.BRANCH_NAME}"
+                        sh "docker tag hello-world ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
+                        sh "docker push ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
                         sh 'docker tag hello-world ghcr.io/sebastianxjavier/hello-world:latest'
                         sh 'docker push ghcr.io/sebastianxjavier/hello-world:latest'
                     }
