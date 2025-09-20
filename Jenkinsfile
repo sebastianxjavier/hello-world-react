@@ -13,23 +13,27 @@ spec:
   -  name: kubectl
      image: alpine/k8s:1.32.2
      command: ["/bin/sh", "-c", "tail -f /dev/null"]
+  -  name: kaniko
+     image: gcr.io/kaniko-project/executor:debug
+     command: ["/bin/sh", "-c", "tail -f /dev/null"]
             """
         }
     }
     stages {
-        stage('Build de la aplicación') {
+        stage('Build de la imagen') {
             steps {
-                container('node') {
-                    sh 'node --version'
+                container('kaniko') {
+                    sh 'ls -la /kaniko/.docker'
+                    sh 'cat /kaniko/.docker/.config.json'
                 }
             }
         }
-        stage('kubectl para cluser') {
-            steps {
-                container('kubectl') {
-                    sh 'kubectl get pod'
-                }
-            }
-        }
+        // stage('kubectl para cluster') {
+        //     steps {
+        //         container('kubectl') {
+        //             sh 'kubectl get pod'
+        //         }
+        //     }
+        // }
     }
 }
