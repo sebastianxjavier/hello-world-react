@@ -28,19 +28,27 @@ spec:
         stage('Build de la imagen') {
             steps {
                 container('kaniko') {
-                    sh 'ls -la /kaniko/.docker'
-                    sh 'cat /kaniko/.docker/.config.json'
+                    // sh 'ls -la /kaniko/.docker'
+                    // sh 'cat /kaniko/.docker/.config.json'
+                    sh """
+                        /kaniko/executor \
+                        --context=. \
+                        --dockerfile=Dockerfile \
+                        --destination=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER} \
+                        --destination=ghcr.io/sebastianxjavier/hello-world:latest
+                        --image-fs-extract-retry 5 \
+                    """
                 }
             }
         }
-        // stage('kubectl para cluster') {
-		// 	steps {
-		// 		script {
-		// 			container('kubectl') {
-		// 				sh "kubectl set image -n curso-contenedores deployment/hello-world hello-world=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
-		// 			}
-		// 		}
-		// 	}
-		// }
+        stage('kubectl para cluster') {
+			steps {
+				script {
+					container('kubectl') {
+						sh "kubectl set image -n curso-contenedores deployment/hello-world hello-world=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
+					}
+				}
+			}
+		}
     }
 }
