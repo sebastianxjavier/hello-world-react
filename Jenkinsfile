@@ -37,6 +37,7 @@ spec:
                         --destination=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER} \
                         --destination=ghcr.io/sebastianxjavier/hello-world:latest
                         --image-fs-extract-retry 5 \
+                        --push-retry
                     """
                 }
             }
