@@ -17,9 +17,9 @@ spec:
      image: gcr.io/kaniko-project/executor:debug
      command: ["/bin/sh", "-c", "tail -f /dev/null"]
      volumeMounts:
-	 - name: kaniko-secret
-	   mountPath: /kaniko/.docker/config.json
-	   subPath: .dockerconfigjson
+	 -  name: kaniko-secret
+        mountPath: /kaniko/.docker/config.json
+        subPath: .dockerconfigjson
   volumes:
   -  name: kaniko-secret
      secret:
