@@ -7,8 +7,8 @@ kind: Pod
 spec:
   serviceAccountName: jenkins-account
   containers:
-  - name: node
-    image: node:24-alpine
+  -  name: node
+     image: node:24-alpine
             """
         }
     }
