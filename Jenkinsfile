@@ -21,9 +21,9 @@ spec:
 	   mountPath: /kaniko/.docker/config.json
 	   subPath: .dockerconfigjson
   volumes:
-  - name: kaniko-secret
-    secret:
-	  secretName: ghcr-registry
+  -  name: kaniko-secret
+     secret:
+       secretName: ghcr-registry
             """
         }
     }
