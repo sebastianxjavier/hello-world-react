@@ -16,6 +16,14 @@ spec:
   -  name: kaniko
      image: gcr.io/kaniko-project/executor:debug
      command: ["/bin/sh", "-c", "tail -f /dev/null"]
+     volumeMounts:
+	 - name: kaniko-secret
+	   mountPath: /kaniko/.docker/config.json
+	   subPath: .dockerconfigjson
+  volumes:
+  - name: kaniko-secret
+    secret:
+	  secretName: ghcr-registry
             """
         }
     }
@@ -29,11 +37,13 @@ spec:
             }
         }
         // stage('kubectl para cluster') {
-        //     steps {
-        //         container('kubectl') {
-        //             sh 'kubectl get pod'
-        //         }
-        //     }
-        // }
+		// 	steps {
+		// 		script {
+		// 			container('kubectl') {
+		// 				sh "kubectl set image -n curso-contenedores deployment/hello-world hello-world=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
+		// 			}
+		// 		}
+		// 	}
+		// }
     }
 }
