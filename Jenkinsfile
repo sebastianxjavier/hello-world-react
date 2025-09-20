@@ -1,31 +1,22 @@
 pipeline {
     agent { 
-        label 'wsl'
+        kubernetes {
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  serviceAccountName: jenkins-account
+  containers:
+  - name: node
+    image: node:24-alpine
+            """
+        }
     }
     stages {
         stage('Build de la aplicación') {
             steps {
-                sh 'docker build -t hello-world .'
-            }
-        }
-        stage('Publicar imagen de la aplicación') {
-            steps {
-                script {
-                    docker.withRegistry("https://ghcr.io", "reg-cred-id") {
-                        sh "docker tag hello-world ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
-                        sh "docker push ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
-                        sh 'docker tag hello-world ghcr.io/sebastianxjavier/hello-world:latest'
-                        sh 'docker push ghcr.io/sebastianxjavier/hello-world:latest'
-                    }
-                }
-            }
-        }
-        stage('Deploy de la aplicación') {
-            steps {
-                script {
-                    withKubeConfig([credentialsId: 'kubeconfig-dev', namespace: 'curso-contenedores']) {
-                        sh "kubectl set image deployment/hello-world hello-world=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
-                    }
+                container('node') {
+                    sh 'node --version'
                 }
             }
         }
