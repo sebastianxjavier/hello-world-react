@@ -7,9 +7,6 @@ kind: Pod
 spec:
   serviceAccountName: jenkins-account
   containers:
-  -  name: node
-     image: node:24-alpine
-     command: ["/bin/sh", "-c", "tail -f /dev/null"]
   -  name: kubectl
      image: alpine/k8s:1.32.2
      command: ["/bin/sh", "-c", "tail -f /dev/null"]
@@ -17,13 +14,13 @@ spec:
      image: gcr.io/kaniko-project/executor:debug
      command: ["/bin/sh", "-c", "tail -f /dev/null"]
      volumeMounts:
-	 -  name: kaniko-secret
-        mountPath: /kaniko/.docker/config.json
-        subPath: .dockerconfigjson
+     - name: kaniko-secret
+       mountPath: /kaniko/.docker/config.json
+       subPath: .dockerconfigjson
   volumes:
-  -  name: kaniko-secret
-     secret:
-       secretName: ghcr-registry
+  - name: kaniko-secret
+    secret:
+      secretName: ghcr-registry
             """
         }
     }
