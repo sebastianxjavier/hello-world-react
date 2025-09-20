@@ -22,7 +22,11 @@ pipeline {
         }
         stage('Deploy de la aplicación') {
             steps {
-                sh "kubectl set image deployment/hello-world hello-world=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
+                script {
+                    withKubeConfig([credentialsId: 'kubeconfig-dev', namespace: 'curso-contenedores']) {
+                        sh "kubectl set image deployment/hello-world hello-world=ghcr.io/sebastianxjavier/hello-world:${env.BUILD_NUMBER}"
+                    }
+                }
             }
         }
     }
